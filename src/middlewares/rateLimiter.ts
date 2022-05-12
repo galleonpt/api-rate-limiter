@@ -3,17 +3,22 @@ import { redis } from '../redis-client';
 
 export function rateLimiter({ requestsPerHour, hourInSeconds }) {
 	return async function (request: Request, response: Response, next: NextFunction) {
-		const userIP: string = request.ip.split(':').slice(-1)[0];
+		let userInfo;
 
-		const amountOfRequests: number = await redis.incr(userIP);
+		if (request.path.includes('private')) {
+			userInfo = request.headers.authorization.split(' ')[1];
+		} else {
+			userInfo = request.ip.split(':').slice(-1)[0];
+		}
 
-		//Quando for o primeiro request definir o expire time no redis para aquele ip especifico
-		let ttl; //time to live -> tempo que demora a dar reset a cache do redis. 100 requests per hour. o meu ttl = 1h(colocar em segundos)
+		const amountOfRequests: number = await redis.incr(userInfo);
+
+		let ttl;
 		if (amountOfRequests === 1) {
-			await redis.expire(userIP, hourInSeconds);
+			await redis.expire(userInfo, hourInSeconds);
 			ttl = hourInSeconds;
 		} else {
-			ttl = await redis.ttl(userIP);
+			ttl = await redis.ttl(userInfo);
 		}
 
 		if (amountOfRequests > requestsPerHour) {
