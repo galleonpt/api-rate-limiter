@@ -11,7 +11,7 @@ routes.post(
 	async (request: Request, response: Response) => {
 		return response.json({
 			route: request.path,
-			callInAMinute: request.amountOfRequests,
+			amountOfRequests: request.amountOfRequests,
 			ttl: request.ttl,
 		});
 	},
@@ -24,7 +24,7 @@ routes.post(
 	(request: Request, response: Response) => {
 		return response.json({
 			route: request.path,
-			callInAMinute: request.amountOfRequests,
+			amountOfRequests: request.amountOfRequests,
 			ttl: request.ttl,
 		});
 	},
