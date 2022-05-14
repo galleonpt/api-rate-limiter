@@ -57,7 +57,7 @@ I recommend using [Postman](https://www.postman.com/downloads/) or [Insomnia](ht
 **Endpoint**
 
 ```bash
-  POST /public
+  GET /public
 ```
 
 **Response**
@@ -77,7 +77,7 @@ I recommend using [Postman](https://www.postman.com/downloads/) or [Insomnia](ht
 **Endpoint**
 
 ```bash
-  POST /private
+  GET /private
 ```
 
 ## Note

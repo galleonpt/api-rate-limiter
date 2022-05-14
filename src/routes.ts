@@ -5,7 +5,7 @@ import config from './config/config';
 
 const routes: Router = Router();
 
-routes.post(
+routes.get(
 	'/public',
 	rateLimiter({ requestsPerHour: config.IP_LIMIT, hourInSeconds: config.ONE_HOUR_IN_SECONDS }),
 	async (request: Request, response: Response) => {
@@ -17,7 +17,7 @@ routes.post(
 	},
 );
 
-routes.post(
+routes.get(
 	'/private',
 	ensureAuthenticated,
 	rateLimiter({ requestsPerHour: config.TOKEN_LIMIT, hourInSeconds: config.ONE_HOUR_IN_SECONDS }),
